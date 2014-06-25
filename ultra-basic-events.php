@@ -36,6 +36,7 @@ class Ultra_Basic_Events_Plugin {
     var $file_path;
     var $url;
     var $version;
+    var $util;
     var $schema;
     var $admin;
     var $template_tags;
@@ -53,15 +54,17 @@ class Ultra_Basic_Events_Plugin {
 	// See http://php.net/manual/en/language.oop5.decon.php to get a better understanding of what's going on here.
 	private function __construct() {
         
-        $this->$slug = 'ubep';
-        $this->$title = 'Ultra Basic Events Plugin';
-        $this->$menu_slug = $this->$slug . '-menu';
-        $this->$root = dirname(__FILE__);
-        $this->$file_path = $this->$root . '/' . basename(__FILE__);
-        $this->$url = plugins_url('/', __FILE__);
-        $this->$version = '0.0.1';       
+        $this->slug = 'ubep';
+        $this->title = 'Ultra Basic Events Plugin';
+        $this->menu_slug = $this->$slug . '-menu';
+        $this->root = dirname(__FILE__);
+        $this->file_path = $this->$root . '/' . basename(__FILE__);
+        $this->url = plugins_url('/', __FILE__);
+        $this->version = '0.0.1';       
         
         $this->includes();
+        
+        $this->util();
         
         $this->schema();
         
@@ -76,11 +79,19 @@ class Ultra_Basic_Events_Plugin {
 	 * @since 0.0.1
 	 */
 	function includes() {
+        
+        require_once( $this->root . '/includes/util.php' );
         require_once( $this->root . '/includes/schema.php' );
         require_once( $this->root . '/includes/admin.php' );
         require_once( $this->root . '/includes/template-tags.php' );
        
     }
+    
+    function util(){
+ 		if ( empty( $this->util ) ) {
+			$this->util = new UBEP_Util;
+		}       
+    }    
     
     function schema(){
  		if ( empty( $this->schema ) ) {
