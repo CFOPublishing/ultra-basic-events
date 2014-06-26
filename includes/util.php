@@ -1,5 +1,5 @@
 <?php
-class UBEP_Schema {
+class UBEP_Util {
     
 	public function init() {
 		static $instance;
@@ -17,12 +17,31 @@ class UBEP_Schema {
         
     }
     
+    public function build_meta_box_argument($meta_slug = false, $label = false, $field_name = false, $input = 'text', $size = 25, $post_type = false, $the_field = false){
+        if (!$post_type) { $post_type = ubep()->schema->post_type; }
+        $args = array(
+            'meta_slug'     => $meta_slug,
+            'label'         => $label,
+            'field_name'    => $field_name,
+            'input'         => $input,
+            'post_type'     => $post_type,
+            'size'          => $size,
+            'the_field'     => $the_field
+        );
+        foreach ($args as $key=>$arg){
+            if (!$arg){
+                self::logger('Ultra Basic Event meta box field ' . $key . ' was left unset.');    
+            }
+        }
+        return $args;
+    }
+    
             
     public function meta_box_default_parser($args){
     
          $default = array(
             'input'     => 'text',
-            'size'      => '25',
+            'size'      => 25,
             'label'     => ubep()->title . ' Meta Field',
             'post_type' => ubep()->schema->post_type
              
@@ -135,6 +154,19 @@ class UBEP_Schema {
 
         // Update the meta field in the database.
         update_post_meta( $post_id, self::meta_slug($args), $data );        
+        
+    }
+    
+    # via http://www.smashingmagazine.com/2011/03/08/ten-things-every-wordpress-plugin-developer-should-know/
+    public function logger($message){
+    
+        if (WP_DEBUG === true) {
+            if (is_array($message) || is_object($message)) {
+                error_log(print_r($message, true));
+            } else {
+                error_log($message);
+            }
+        }    
         
     }
     
