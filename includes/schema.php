@@ -53,5 +53,11 @@ class UBEP_Schema {
 		) ) );
 
 		do_action( 'ubep_feed_post_type_registered' );
-	}    
+	}
+    
+    public function date_box_schema(){
+        $args = ubep()->util->build_meta_box_argument('event_date', 'Event Date', 'event_date', 'date');    
+        return $args;
+    }
+    
 }

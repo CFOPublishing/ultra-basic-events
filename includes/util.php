@@ -17,6 +17,19 @@ class UBEP_Util {
         
     }
     
+    
+    /**
+     *
+     * Takes
+     * meta_slug    - string, slug to save post_meta with
+     * label        - the user-visible label attached to the entry field
+     * field_name   - the HTML for= and name= value. 
+     * input        - field type
+     * post_type    - qualified post type, string, only takes one atm.
+     * size         - field size
+     * the_field    - pass HTML if no input template is useful. 
+     *
+     */
     public function build_meta_box_argument($meta_slug = false, $label = false, $field_name = false, $input = 'text', $size = 25, $post_type = false, $the_field = false){
         if (!$post_type) { $post_type = ubep()->schema->post_type; }
         $args = array(
