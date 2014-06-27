@@ -39,7 +39,7 @@ class Ultra_Basic_Events_Plugin {
     var $util;
     var $schema;
     var $admin;
-    var $template_tags;
+    var $templates;
     
     public static function init() {
 		static $instance;
@@ -56,9 +56,9 @@ class Ultra_Basic_Events_Plugin {
         
         $this->slug = 'ubep';
         $this->title = 'Ultra Basic Events Plugin';
-        $this->menu_slug = $this->$slug . '-menu';
+        $this->menu_slug = $this->slug . '-menu';
         $this->root = dirname(__FILE__);
-        $this->file_path = $this->$root . '/' . basename(__FILE__);
+        $this->file_path = $this->root . '/' . basename(__FILE__);
         $this->url = plugins_url('/', __FILE__);
         $this->version = '0.0.1';       
         
@@ -101,13 +101,13 @@ class Ultra_Basic_Events_Plugin {
     
     function admin(){
  		if ( empty( $this->admin ) ) {
-			$this->schema = new UBEP_Admin;
+			$this->admin = new UBEP_Admin;
 		}       
     }
     
     function template_tags(){
- 		if ( empty( $this->template_tags ) ) {
-			$this->schema = new UBEP_Template_Tags;
+ 		if ( empty( $this->templates ) ) {
+			$this->templates= new UBEP_Template_Tags;
 		}       
     }    
 
