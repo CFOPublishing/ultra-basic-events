@@ -30,13 +30,14 @@ class UBEP_Util {
      * the_field    - pass HTML if no input template is useful. 
      *
      */
-    public function build_meta_box_argument($meta_slug = false, $label = false, $field_name = false, $input = 'text', $size = 25, $post_type = false, $the_field = false){
+    public function build_meta_box_argument($meta_slug = false, $label = false, $field_name = false, $input = 'text', $descript="", $size = 25, $post_type = false, $the_field = false){
         if (!$post_type) { $post_type = ubep()->schema->post_type; }
         $args = array(
             'meta_slug'     => $meta_slug,
             'label'         => $label,
             'field_name'    => $field_name,
             'input'         => $input,
+			'descript'		=> $descript,
             'post_type'     => $post_type,
             'size'          => $size,
             'the_field'     => $the_field
@@ -92,26 +93,47 @@ class UBEP_Util {
         
         if ($post->post_type == $args['post_type']){
         
-            $value = get_post_meta( $post->ID, self::meta_slug($args), true );
+            $current_metadata = get_post_meta( $post->ID, self::meta_slug($args), true );
 
             wp_nonce_field( self::meta_box_box_name($args), self::meta_box_nonce_name($args) );
 
             _printf('<label for="%1$s">%2$s</label>', $args['field_name'], $args['label']);
-            if ('text' == $args['input']){
-                _printf('<input type="text" id="%1$s" name="%1$s" value="%2$s" size="%3$u" />', 
-                        $args['field_name'], 
-                        esc_attr($value),
-                        $args['size']
-                       );
-            } else {
-
-                echo $args['the_field'];
+           switch ($args['input']){
+			   case 'text':
+					_printf('<input type="text" id="%1$s" name="%1$s" value="%2$s" size="%3$u" />', 
+							$args['field_name'], 
+							esc_attr($current_metadata),
+							$args['size']
+						   );
+			   		break;
+			   case 'date':
+			   		# from: https://github.com/Automattic/Edit-Flow/blob/master/modules/editorial-metadata/editorial-metadata.php
+						// TODO: Move this to a function
+						if ( !empty( $current_metadata ) ) {
+							// Turn timestamp into a human-readable date
+							$current_metadata = $this->show_date_or_datetime( intval( $current_metadata ) );	
+						}
+						echo '<label for="'.$args['field_name'].'">'.$args['label'].'</label>';
+						if ( !empty($args['descript']) )
+							echo '<label for="'.$args['field_name'].'">'.$args['descript'].'</label>';
+						echo '<input id="'.$args['field_name'].'" name="'.$args['field_name'].'" type="text" class="date-time-pick" value="'.$current_metadata.'" />';
+						break;			   		
+				default:
+					echo $args['the_field'];
 
             }
         }
         
         
     }
+	
+	private function show_date_or_datetime( $current_date ) {
+
+		if( date( 'Hi', $current_date ) == '0000')
+			return date( 'M d Y', $current_date );
+		else
+			return date( 'M d Y H:i', $current_date );
+	}	
     
     public function meta_box_checker($post_id, $args){
         
