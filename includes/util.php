@@ -54,16 +54,20 @@ class UBEP_Util {
     public function meta_box_default_parser($args){
     
          $default = array(
-            'input'     => 'text',
-            'size'      => 25,
-            'label'     => ubep()->title . ' Meta Field',
-            'post_type' => ubep()->schema->post_type
+                'meta_slug'     => false,
+                'label'         => ubep()->title . ' Meta Field',
+                'field_name'    => false,
+                'input'         => 'text',
+                'descript'      => "",
+                'post_type'     => ubep()->schema->post_type,
+                'size'          => 25,
+                'the_field'     => ''
              
         );
-        
-        $args = wp_parse_args( $args, $defaults );
+        #var_dump($args); die(0);
+        $args = wp_parse_args( $args, $default );
         $args['field_name'] = ubep()->slug . $args['field_name'];
-
+       
         return $args;
         
     }
@@ -86,24 +90,23 @@ class UBEP_Util {
         
     }
     
-	public function meta_box_maker($args){
+	public function meta_box_maker($post, $metabox){
         global $post;
+        $theseArgs = ubep()->util->meta_box_default_parser($metabox['args']);
+        #var_dump($theseArgs);
+        if ($post->post_type == $theseArgs['post_type']){
         
-        $args = ubep()->util->meta_box_default_parser($args);
-        
-        if ($post->post_type == $args['post_type']){
-        
-            $current_metadata = get_post_meta( $post->ID, self::meta_slug($args), true );
+            $current_metadata = get_post_meta( $post->ID, self::meta_slug($theseArgs), true );
 
-            wp_nonce_field( self::meta_box_box_name($args), self::meta_box_nonce_name($args) );
+            wp_nonce_field( self::meta_box_box_name($theseArgs), self::meta_box_nonce_name($theseArgs) );
 
-            _printf('<label for="%1$s">%2$s</label>', $args['field_name'], $args['label']);
-           switch ($args['input']){
+           printf('<label for="%1$s">%2$s</label>', $theseArgs['field_name'], $theseArgs['label']);
+           switch ($theseArgs['input']){
 			   case 'text':
-					_printf('<input type="text" id="%1$s" name="%1$s" value="%2$s" size="%3$u" />', 
-							$args['field_name'], 
+					printf('<input type="text" id="%1$s" name="%1$s" value="%2$s" size="%3$u" />', 
+							$theseArgs['field_name'], 
 							esc_attr($current_metadata),
-							$args['size']
+							$theseArgs['size']
 						   );
 			   		break;
 			   case 'date':
@@ -113,13 +116,12 @@ class UBEP_Util {
 							// Turn timestamp into a human-readable date
 							$current_metadata = $this->show_date_or_datetime( intval( $current_metadata ) );	
 						}
-						echo '<label for="'.$args['field_name'].'">'.$args['label'].'</label>';
-						if ( !empty($args['descript']) )
-							echo '<label for="'.$args['field_name'].'">'.$args['descript'].'</label>';
-						echo '<input id="'.$args['field_name'].'" name="'.$args['field_name'].'" type="text" class="date-time-pick" value="'.$current_metadata.'" />';
+						if ( !empty($theseArgs['descript']) )
+				            echo '<label for="'.$theseArgs['field_name'].'">'.$theseArgs['descript'].'</label>';
+						echo '<input id="'.$theseArgs['field_name'].'" class="'.$theseArgs['input'].'" name="'.$theseArgs['field_name'].'" type="text" class="date-time-pick" value="'.$current_metadata.'" />';
 						break;			   		
 				default:
-					echo $args['the_field'];
+					echo $theseArgs['the_field'];
 
             }
         }

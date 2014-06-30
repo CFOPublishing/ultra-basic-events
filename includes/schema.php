@@ -16,6 +16,7 @@ class UBEP_Schema {
 		$this->post_type = 'ubep_simple_event';
         $this->date_meta = 'ubep_event_date';
         add_action( 'init', array( $this, 'register_feed_post_type' ) );
+        add_action( 'add_meta_boxes', array($this, 'date_box') );
     }
     
 	/**
@@ -62,14 +63,19 @@ class UBEP_Schema {
     
     public function date_box(){
         $args = self::date_box_schema();
-        
-        add_meta_box( $this->slug.'_event_date_box', 'Event Date', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
+        #var_dump('<pre>');
+        #var_dump($args);
+        #die();
+        add_meta_box( ubep()->slug.'_event_date_box', 'Event Date', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
         
     }
     
-    public function meta_box_maker($args){
-        
-        ubep()->util->meta_box_maker($args);
+    public function meta_box_maker($post, $args){
+        #var_dump('<pre>');
+        #var_dump($args);
+        #var_dump('bob');
+        #die();
+        ubep()->util->meta_box_maker($post, $args);
         
     }
         
