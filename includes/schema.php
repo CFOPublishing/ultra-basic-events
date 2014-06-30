@@ -63,7 +63,13 @@ class UBEP_Schema {
     public function date_box(){
         $args = self::date_box_schema();
         
-        add_meta_box( $id, $title, array('ubep()->util->meta_box_maker()'), $this->post_type, 'side', 'high', $args );
+        add_meta_box( $this->slug.'_event_date_box', 'Event Date', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
+        
+    }
+    
+    public function meta_box_maker($args){
+        
+        ubep()->util->meta_box_maker($args);
         
     }
         
