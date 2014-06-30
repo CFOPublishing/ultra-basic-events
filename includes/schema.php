@@ -60,4 +60,12 @@ class UBEP_Schema {
         return $args;
     }
     
+    public function date_box(){
+        $args = self::date_box_schema();
+        
+        add_meta_box( $id, $title, array('ubep()->util->meta_box_maker()'), $this->post_type, 'side', 'high', $args );
+        
+    }
+        
+    
 }
