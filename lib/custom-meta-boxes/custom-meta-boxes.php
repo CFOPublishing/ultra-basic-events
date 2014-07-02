@@ -44,7 +44,7 @@ include_once( CMB_PATH . '/fields-anywhere.php' );
  *
  * @return null
  */
-function cmb_init() {
+function reused_cmb_init() {
 
 	if ( ! is_admin() )
 		return;
@@ -61,10 +61,10 @@ function cmb_init() {
 
 	if ( ! empty( $meta_boxes ) )
 		foreach ( $meta_boxes as $meta_box )
-			new CMB_Meta_Box( $meta_box );
+			new Reused_CMB_Meta_Box( $meta_box );
 
 }
-add_action( 'init', 'cmb_init' );
+add_action( 'init', 'reused_cmb_init' );
 
 /**
  * Return an array of built in available fields
@@ -74,7 +74,7 @@ add_action( 'init', 'cmb_init' );
  *
  * @return array
  */
-function _cmb_available_fields() {
+function _reused_cmb_available_fields() {
 
 	return apply_filters( 'cmb_field_types', array(
 		'text'				=> 'CMB_Text_Field',
@@ -108,7 +108,7 @@ function _cmb_available_fields() {
  * @param  string $type
  * @return string $class, or false if not found.
  */
-function _cmb_field_class_for_type( $type ) {
+function _reused_cmb_field_class_for_type( $type ) {
 
 	$map = _cmb_available_fields();
 
@@ -129,7 +129,7 @@ function _cmb_field_class_for_type( $type ) {
  * @param  string $query
  * @return string $query
  */
-function cmb_fix_meta_query_order($query) {
+function reused_cmb_fix_meta_query_order($query) {
 
     $pattern = '/^SELECT (post_id|user_id), meta_key, meta_value FROM \w* WHERE post_id IN \([\d|,]*\)$/';
 
@@ -155,4 +155,4 @@ function cmb_fix_meta_query_order($query) {
 }
 
 if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) )
-	add_filter( 'query', 'cmb_fix_meta_query_order', 1 );
+	add_filter( 'query', 'reused_cmb_fix_meta_query_order', 1 );

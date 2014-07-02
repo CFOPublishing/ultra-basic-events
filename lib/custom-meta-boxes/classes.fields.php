@@ -1397,7 +1397,7 @@ class CMB_Group_Field extends CMB_Field {
 			<button class="cmb-delete-field" title="Remove field"><span class="cmb-delete-field-icon">&times;</span> Remove Group</button>
 		<?php endif; ?>
 
-		<?php CMB_Meta_Box::layout_fields( $fields ); ?>
+		<?php Reused_CMB_Meta_Box::layout_fields( $fields ); ?>
 
 	<?php }
 

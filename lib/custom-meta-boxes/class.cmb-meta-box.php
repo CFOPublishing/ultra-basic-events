@@ -3,7 +3,7 @@
 /**
  * Create meta boxes
  */
-class CMB_Meta_Box {
+class Reused_CMB_Meta_Box {
 
 	protected $_meta_box;
 	private $fields = array();
