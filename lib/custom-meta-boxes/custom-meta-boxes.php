@@ -22,20 +22,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ( ! defined( 'CMB_DEV') )
-	define( 'CMB_DEV', false );
+if ( ! defined( 'R_CMB_DEV') )
+	define( 'R_CMB_DEV', false );
 
-if ( ! defined( 'CMB_PATH') )
-	define( 'CMB_PATH', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'R_CMB_PATH') )
+	define( 'R_CMB_PATH', plugin_dir_path( __FILE__ ) );
 
-if ( ! defined( 'CMB_URL' ) )
-	define( 'CMB_URL', plugins_url( '', __FILE__ ) );
+if ( ! defined( 'R_CMB_URL' ) )
+	define( 'R_CMB_URL', plugins_url( '', __FILE__ ) );
 
-include_once( CMB_PATH . '/classes.fields.php' );
-include_once( CMB_PATH . '/class.cmb-meta-box.php' );
+include_once( R_CMB_PATH . '/classes.fields.php' );
+include_once( R_CMB_PATH . '/class.cmb-meta-box.php' );
 
 // Make it possible to add fields in locations other than post edit screen.
-include_once( CMB_PATH . '/fields-anywhere.php' );
+include_once( R_CMB_PATH . '/fields-anywhere.php' );
 
 // include_once( CMB_PATH . '/example-functions.php' );
 
@@ -55,7 +55,7 @@ function reused_cmb_init() {
 
 	// By default, try to load language files from /wp-content/languages/custom-meta-boxes/
 	load_textdomain( $textdomain, WP_LANG_DIR . '/custom-meta-boxes/' . $textdomain . '-' . $locale . '.mo' );
-	load_textdomain( $textdomain, CMB_PATH . '/languages/' . $textdomain . '-' . $locale . '.mo' );
+	load_textdomain( $textdomain, R_CMB_PATH . '/languages/' . $textdomain . '-' . $locale . '.mo' );
 
 	$meta_boxes = apply_filters( 'cmb_meta_boxes', array() );
 

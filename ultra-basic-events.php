@@ -87,7 +87,7 @@ class Ultra_Basic_Events_Plugin {
         require_once( $this->root . '/includes/admin.php' );
         require_once( $this->root . '/includes/template-tags.php' );
         if (!file_exists($this->content_root . '/plugins-mu/custom-meta-boxes/custom-meta-boxes.php') && !file_exists($this->content_root . 'plugins-mu/Custom-Meta-Boxes/custom-meta-boxes.php') && !class_exists('CMB_Meta_Box')){
-            require_once($this->root . '/lib/custom-meta-boxes/custom-meta-boxes.php');    
+            #require_once($this->root . '/lib/custom-meta-boxes/custom-meta-boxes.php');    
         }
        
     }

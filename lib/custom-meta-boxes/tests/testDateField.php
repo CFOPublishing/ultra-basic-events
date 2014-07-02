@@ -22,7 +22,7 @@ class DateFieldsAssetsTestCase extends WP_UnitTestCase {
 		$field = new CMB_Date_Field( 'foo', 'Title', array() );		
 			
 		// Register CMB-Scripts as this is a dependency.
-		wp_register_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+		wp_register_script( 'cmb-scripts', trailingslashit( R_CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
 		
 		$field->enqueue_scripts();
 		$field->enqueue_styles();
@@ -46,16 +46,16 @@ class DateFieldsAssetsTestCase extends WP_UnitTestCase {
 		$field = new CMB_Time_Field( 'foo', 'Title', array() );		
 			
 		// Register CMB-Scripts as this is a dependency.
-		wp_enqueue_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+		wp_enqueue_script( 'cmb-scripts', trailingslashit( R_CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
 		
 		$field->enqueue_scripts();
 		
 		$scripts_output = get_echo( 'wp_print_scripts' );
 		
 		// Scripts
-		$this->assertContains( CMB_URL . '/js/cmb.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/field.datetime.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/cmb.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/field.datetime.js', $scripts_output );
 			
 	}
 
@@ -64,16 +64,16 @@ class DateFieldsAssetsTestCase extends WP_UnitTestCase {
 		$field = new CMB_Date_Timestamp_Field( 'foo', 'Title', array() );		
 			
 		// Register CMB-Scripts as this is a dependency.
-		wp_enqueue_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+		wp_enqueue_script( 'cmb-scripts', trailingslashit( R_CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
 		
 		$field->enqueue_scripts();
 		
 		$scripts_output = get_echo( 'wp_print_scripts' );
 		
 		// Scripts
-		$this->assertContains( CMB_URL . '/js/cmb.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/field.datetime.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/cmb.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/field.datetime.js', $scripts_output );
 			
 	}
 
@@ -82,16 +82,16 @@ class DateFieldsAssetsTestCase extends WP_UnitTestCase {
 		$field = new CMB_Datetime_Timestamp_Field( 'foo', 'Title', array() );		
 			
 		// Register CMB-Scripts as this is a dependency.
-		wp_enqueue_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+		wp_enqueue_script( 'cmb-scripts', trailingslashit( R_CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
 		
 		$field->enqueue_scripts();
 		
 		$scripts_output = get_echo( 'wp_print_scripts' );
 		
 		// Scripts
-		$this->assertContains( CMB_URL . '/js/cmb.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
-		$this->assertContains( CMB_URL . '/js/field.datetime.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/cmb.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/jquery.timePicker.min.js', $scripts_output );
+		$this->assertContains( R_CMB_URL . '/js/field.datetime.js', $scripts_output );
 			
 	}
 

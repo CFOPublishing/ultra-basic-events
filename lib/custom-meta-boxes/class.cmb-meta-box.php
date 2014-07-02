@@ -109,7 +109,7 @@ class Reused_CMB_Meta_Box {
 
 	function enqueue_scripts() {
 
-		wp_enqueue_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+		wp_enqueue_script( 'cmb-scripts', trailingslashit( R_CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
 
 		foreach ( $this->fields as $field )
 			$field->enqueue_scripts();
@@ -118,12 +118,12 @@ class Reused_CMB_Meta_Box {
 
 	function enqueue_styles() {
 
-		$suffix = CMB_DEV ? '' : '.min';
+		$suffix = R_CMB_DEV ? '' : '.min';
 
 		if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) )
-			wp_enqueue_style( 'cmb-styles', trailingslashit( CMB_URL ) . "css/dist/cmb$suffix.css" );
+			wp_enqueue_style( 'cmb-styles', trailingslashit( R_CMB_URL ) . "css/dist/cmb$suffix.css" );
 		else
-			wp_enqueue_style( 'cmb-styles', trailingslashit( CMB_URL ) . 'css/legacy.css' );
+			wp_enqueue_style( 'cmb-styles', trailingslashit( R_CMB_URL ) . 'css/legacy.css' );
 
 		foreach ( $this->fields as $field )
 			$field->enqueue_styles();
