@@ -58,6 +58,7 @@ class Ultra_Basic_Events_Plugin {
         $this->title = 'Ultra Basic Events Plugin';
         $this->menu_slug = $this->slug . '-menu';
         $this->root = dirname(__FILE__);
+        $this->content_root = dirname(dirname(dirname(__FILE__)));
         $this->file_path = $this->root . '/' . basename(__FILE__);
         $this->url = plugins_url('/', __FILE__);
         $this->version = '0.0.1';       
