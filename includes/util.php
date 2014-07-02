@@ -14,7 +14,7 @@ class UBEP_Util {
 	public function __construct() {
 		
         #Stuff
-        
+        add_action( 'admin_head', array($this, 'admin_scripts' ));
     }
     
     
@@ -118,7 +118,7 @@ class UBEP_Util {
 						}
 						if ( !empty($theseArgs['descript']) )
 				            echo '<label for="'.$theseArgs['field_name'].'">'.$theseArgs['descript'].'</label>';
-						echo '<input id="'.$theseArgs['field_name'].'" class="'.$theseArgs['input'].'" name="'.$theseArgs['field_name'].'" type="text" class="date-time-pick" value="'.$current_metadata.'" />';
+						echo '<input id="'.$theseArgs['field_name'].'" class="'.$theseArgs['input'].' date-time-pick-zs-util" name="'.$theseArgs['field_name'].'" type="text" value="'.$current_metadata.'" />';
 						break;			   		
 				default:
 					echo $theseArgs['the_field'];
@@ -138,7 +138,7 @@ class UBEP_Util {
 	}	
     
     public function meta_box_checker($post_id, $args){
-        
+        #var_dump($post_id); die();
         $args = ubep()->util->meta_box_default_parser($args);
         
         /*
@@ -148,11 +148,13 @@ class UBEP_Util {
 
         // Check if our nonce is set.
         if ( ! isset( $_POST[self::meta_box_nonce_name($args)] ) ) {
+            ubep()->util->logger('Nonce is not set.');
             return;
         }
 
         // Verify that the nonce is valid.
         if ( ! wp_verify_nonce( self::meta_box_nonce_name($args), self::meta_box_box_name($args) ) ) {
+            ubep()->util->logger('Nonce is not valid.');
             return;
         }
 
@@ -165,12 +167,14 @@ class UBEP_Util {
         if ( isset( $_POST['post_type'] ) && $args['post_type'] == $_POST['post_type'] ) {
 
             if ( ! current_user_can( 'edit_page', $post_id ) ) {
+                ubep()->util->logger('User cannot edit_page.');
                 return;
             }
 
         } else {
 
             if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                ubep()->util->logger('User cannot edit_post.');
                 return;
             }
         }
@@ -179,6 +183,7 @@ class UBEP_Util {
 
         // Make sure that it is set.
         if ( ! isset( $_POST[$args['field_name']] ) ) {
+            ubep()->util->logger('field_name is not set.');
             return;
         }
         
@@ -191,6 +196,20 @@ class UBEP_Util {
 
         // Update the meta field in the database.
         update_post_meta( $post_id, self::meta_slug($args), $data );        
+        
+    }
+    
+    public function admin_scripts(){
+        $screen = get_current_screen();
+        #var_dump($screen); die();
+        wp_register_script('ubep-datepicker', ubep()->url . '/assets/js/datepicker-imp.js', array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'));
+        if (('post' || 'edit' ) == $screen->base){
+            
+            wp_enqueue_script('jquery-ui-core'); 
+            wp_enqueue_script('jquery-ui-datepicker');
+            wp_enqueue_script('ubep-datepicker');
+            
+        }
         
     }
     

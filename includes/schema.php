@@ -46,8 +46,7 @@ class UBEP_Schema {
             'publicly_queryable' => true,
             'exclude_from_search' => true,
 			'supports' 	=> array('title','editor','author','thumbnail','excerpt','custom-fields','page-attributes'),
-			'taxonomies' => array('category', 'post_tag'),
-            'capabilities' => array('edit_posts')
+			'taxonomies' => array('category', 'post_tag')
 			#'show_in_menu' => ubep()->menu_slug
 			#'menu_position' => 100
 			#'show_ui'     => true, // for testing only
