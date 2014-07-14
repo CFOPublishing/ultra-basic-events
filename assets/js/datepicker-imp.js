@@ -2,14 +2,16 @@ jQuery(document).ready(function(){
     
     jQuery( ".date-time-pick-zs-util" ).datepicker(
         {
+            dateFormat: 'mm/dd/yy',
             onSelect: function(dateText, inst)
             {
-                console.log(this);
-                var dateObject = jQuery(this).datepicker('getDate');
-                console.log(dateObject);
+                //console.log(this);
+                //var dateObject = jQuery(this).datepicker('getDate');
+                //console.log(dateText);
                 //var unixDate = jQuery(this).datepicker.formatDate("@", new Date(dateObject));
                 //console.log(unixDate);
-                jQuery(this).attr('value', dateObject);
+                //dateObject = jQuery(this).datepicker('getDate');
+                jQuery(this).attr('value', dateText);
             },
             attributeBindings: ["value"]
         }

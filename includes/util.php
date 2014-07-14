@@ -114,7 +114,7 @@ class UBEP_Util {
 						// TODO: Move this to a function
 						if ( !empty( $current_metadata ) ) {
 							// Turn timestamp into a human-readable date
-							$current_metadata = $this->show_date_or_datetime( intval( $current_metadata ) );	
+							#$current_metadata = $this->show_date_or_datetime( intval( $current_metadata ) );	
 						}
 						if ( !empty($theseArgs['descript']) )
 				            echo '<label for="'.$theseArgs['field_name'].'"></label>';
@@ -189,7 +189,7 @@ class UBEP_Util {
         }
         
         $data = $_POST[$args['field_name']];
-        var_dump($data); die();
+        #var_dump($data); die();
         if ('text' == $args['input']){
             // Sanitize user input.
             $data = sanitize_text_field( $_POST[$args['field_name']] );
