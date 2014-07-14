@@ -43,7 +43,7 @@ class UBEP_Util {
             'the_field'     => $the_field
         );
         foreach ($args as $key=>$arg){
-            if (!$arg){
+            if (!$arg && ('the_field' != $key)){
                 self::logger('Ultra Basic Event meta box field ' . $key . ' was left unset.');    
             }
         }
@@ -66,7 +66,7 @@ class UBEP_Util {
         );
         #var_dump($args); die(0);
         $args = wp_parse_args( $args, $default );
-        $args['field_name'] = ubep()->slug . $args['field_name'];
+        $args['field_name'] = ubep()->slug . '_' . $args['field_name'];
        
         return $args;
         
@@ -117,8 +117,9 @@ class UBEP_Util {
 							$current_metadata = $this->show_date_or_datetime( intval( $current_metadata ) );	
 						}
 						if ( !empty($theseArgs['descript']) )
-				            echo '<label for="'.$theseArgs['field_name'].'">'.$theseArgs['descript'].'</label>';
+				            echo '<label for="'.$theseArgs['field_name'].'"></label>';
 						echo '<input id="'.$theseArgs['field_name'].'" class="'.$theseArgs['input'].' date-time-pick-zs-util" name="'.$theseArgs['field_name'].'" type="text" value="'.$current_metadata.'" />';
+                        echo '<br />'.$theseArgs['descript'];
 						break;			   		
 				default:
 					echo $theseArgs['the_field'];
@@ -153,7 +154,7 @@ class UBEP_Util {
         }
 
         // Verify that the nonce is valid.
-        if ( ! wp_verify_nonce( self::meta_box_nonce_name($args), self::meta_box_box_name($args) ) ) {
+        if ( ! wp_verify_nonce( $_POST[self::meta_box_nonce_name($args)], self::meta_box_box_name($args) ) ) {
             ubep()->util->logger('Nonce is not valid.');
             return;
         }
@@ -188,10 +189,14 @@ class UBEP_Util {
         }
         
         $data = $_POST[$args['field_name']];
-        
+        var_dump($data); die();
         if ('text' == $args['input']){
             // Sanitize user input.
             $data = sanitize_text_field( $_POST[$args['field_name']] );
+        }
+        
+        if ('date' == $args['input']){
+            
         }
 
         // Update the meta field in the database.
@@ -215,7 +220,7 @@ class UBEP_Util {
     
     # via http://www.smashingmagazine.com/2011/03/08/ten-things-every-wordpress-plugin-developer-should-know/
     public function logger($message){
-    
+        #var_dump($message); die();
         if (WP_DEBUG === true) {
             if (is_array($message) || is_object($message)) {
                 error_log(print_r($message, true));

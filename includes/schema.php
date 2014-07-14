@@ -17,6 +17,7 @@ class UBEP_Schema {
         $this->date_meta = 'ubep_event_date';
         add_action( 'init', array( $this, 'register_feed_post_type' ) );
         add_action( 'add_meta_boxes', array($this, 'date_box') );
+        add_action( 'save_post', array($this, 'meta_box_checker') );
     }
     
 	/**
@@ -56,7 +57,7 @@ class UBEP_Schema {
 	}
     
     public function date_box_schema(){
-        $args = ubep()->util->build_meta_box_argument('event_date', 'Event Date', 'event_date', 'date');    
+        $args = ubep()->util->build_meta_box_argument('event_date', 'Event Date', 'event_date', 'date', 'Field for saving when the event will occur');    
         return $args;
     }
     
@@ -65,7 +66,7 @@ class UBEP_Schema {
         #var_dump('<pre>');
         #var_dump($args);
         #die();
-        add_meta_box( ubep()->slug.'_event_date_box', 'Event Date', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
+        add_meta_box( ubep()->slug.'_event_date_box', 'Event Information', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
         
     }
     
@@ -76,6 +77,13 @@ class UBEP_Schema {
         #die();
         ubep()->util->meta_box_maker($post, $args);
         
+    }
+    
+    public function meta_box_checker($post_id){
+        $args = self::date_box_schema();
+        #var_dump($post_id); 
+        #var_dump($_POST); die();
+        ubep()->util->meta_box_checker($post_id, $args);
     }
         
     
