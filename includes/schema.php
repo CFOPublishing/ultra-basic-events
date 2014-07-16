@@ -1,7 +1,7 @@
 <?php
 
 class UBEP_Schema {
-    
+
 	public function init() {
 		static $instance;
 
@@ -10,7 +10,7 @@ class UBEP_Schema {
 		}
 
 		return $instance;
-	}	
+	}
 
 	public function __construct() {
 		$this->post_type = 'ubep_simple_event';
@@ -19,7 +19,7 @@ class UBEP_Schema {
         add_action( 'add_meta_boxes', array($this, 'date_box') );
         add_action( 'save_post', array($this, 'meta_box_checker') );
     }
-    
+
 	/**
 	 * All we need is a basic custom post type. Let's not get crazy.
 	 */
@@ -55,36 +55,39 @@ class UBEP_Schema {
 
 		do_action( 'ubep_feed_post_type_registered' );
 	}
-    
-    public function date_box_schema(){
-        $args = ubep()->util->build_meta_box_argument('event_date', 'Event Date', 'event_date', 'date', 'Field for saving when the event will occur');    
-        return $args;
+
+    public function date_box_schema($key = false){
+        $args = ubep()->util->build_meta_box_argument('event_date', 'Event Date', 'event_date', 'date', 'Field for saving when the event will occur');
+        if (!$key){
+          return $args;
+        }
+        return $args[$key];
     }
-    
+
     public function date_box(){
         $args = self::date_box_schema();
         #var_dump('<pre>');
         #var_dump($args);
         #die();
         add_meta_box( ubep()->slug.'_event_date_box', 'Event Information', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
-        
+
     }
-    
+
     public function meta_box_maker($post, $args){
         #var_dump('<pre>');
         #var_dump($args);
         #var_dump('bob');
         #die();
         ubep()->util->meta_box_maker($post, $args);
-        
+
     }
-    
+
     public function meta_box_checker($post_id){
         $args = self::date_box_schema();
-        #var_dump($post_id); 
+        #var_dump($post_id);
         #var_dump($_POST); die();
         ubep()->util->meta_box_checker($post_id, $args);
     }
-        
-    
+
+
 }
