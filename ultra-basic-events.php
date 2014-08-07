@@ -48,7 +48,6 @@ class Ultra_Basic_Events_Plugin {
 		if ( ! is_a( $instance, 'Ultra_Basic_Events_Plugin' ) ) {
 			$instance = new self();
 		}
-
 		return $instance;
 	}
 
@@ -134,3 +133,4 @@ function ubep() {
 
 // Start me up!
 ubep();
+do_action('ubep_start', ubep()->version);
