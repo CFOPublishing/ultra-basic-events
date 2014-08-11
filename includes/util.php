@@ -120,6 +120,13 @@ class UBEP_Util {
 						echo '<input id="'.$theseArgs['field_name'].'" class="'.$theseArgs['input'].' date-time-pick-zs-util" name="'.$theseArgs['field_name'].'" type="text" value="'.$current_metadata.'" />';
                         echo '<br />'.$theseArgs['descript'];
 						break;
+					case 'url':
+						printf('<input type="url" id="%1$s" name="%1$s" value="%2$s" size="%3$u" />',
+								$theseArgs['field_name'],
+								esc_attr($current_metadata),
+								$theseArgs['size']
+								);
+							break;
 				default:
 					echo $theseArgs['the_field'];
 
@@ -196,6 +203,11 @@ class UBEP_Util {
             $unix_date = strtotime($data);
             $data = $unix_date;
         }
+
+				if ('url' == $args['input']){
+						$sanitized_url = esc_url($data);
+						$data = $sanitized_url;
+				}
 
         // Update the meta field in the database.
         update_post_meta( $post_id, self::meta_slug($args), $data );

@@ -17,6 +17,7 @@ class UBEP_Schema {
         $this->date_meta = 'ubep_event_date';
         add_action( 'init', array( $this, 'register_feed_post_type' ) );
         add_action( 'add_meta_boxes', array($this, 'date_box') );
+				add_action( 'add_meta_boxes', array($this, 'redirect_box') );
         add_action( 'save_post', array($this, 'meta_box_checker') );
     }
 
@@ -72,6 +73,23 @@ class UBEP_Schema {
         add_meta_box( ubep()->slug.'_event_date_box', 'Event Information', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
 
     }
+
+		public function redirect_box_schema($key = false){
+				$args = ubep()->util->build_meta_box_argument('redirect_url', 'Redirect Post to', 'redirect_url', 'url', 'URL of the site to redirect visitors to.');
+				if (!$key){
+					return $args;
+				}
+				return $args[$key];
+		}
+
+	public function redirect_box(){
+			$args = self::redirect_box_schema();
+			#var_dump('<pre>');
+			#var_dump($args);
+			#die();
+			add_meta_box( ubep()->slug.'_redirect_url_box', 'External Event Home Page', array($this, 'meta_box_maker'), $this->post_type, 'side', 'high', $args );
+
+	}
 
     public function meta_box_maker($post, $args){
         #var_dump('<pre>');
