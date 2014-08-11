@@ -19,6 +19,7 @@ class UBEP_Schema {
         add_action( 'add_meta_boxes', array($this, 'date_box') );
 				add_action( 'add_meta_boxes', array($this, 'redirect_box') );
         add_action( 'save_post', array($this, 'meta_box_checker') );
+				add_action('wp_head', array($this, 'zs_wm_forward_onto_new_site'));
     }
 
 	/**
@@ -106,6 +107,32 @@ class UBEP_Schema {
         #var_dump($_POST); die();
         ubep()->util->meta_box_checker($post_id, $args);
     }
+
+		function zs_wm_forward_onto_new_site(){
+			if (!is_admin()){
+				$link = get_option('we_moved_link_setting', '#');
+				$wait = get_option('we_moved_time_setting', 0);
+				$active = get_option('we_moved_active_setting');
+				$anchor = get_option('we_moved_anchor_setting','Click here to continue.');
+				$msg = get_option('we_moved_msg_setting', 'You are being redirected to a new site.');
+				$closable = get_option('we_moved_closer_setting');
+				if ($wait > 0){
+					echo '<META HTTP-EQUIV="refresh" CONTENT="'.$wait.';URL='.$link.'">';
+
+				}
+				if ($active == 'active'){
+					?><script type="text/javascript"><?php
+						echo 'var zs_wm_msg = "'.htmlspecialchars($msg).'"; ';
+						echo 'var zs_wm_closer = "'.$closable.'"; ';
+						if ($wait <= 0){
+							echo 'var zs_forward_link =  "'.$link.'"; ';
+							echo 'var zs_wm_anchor = "'.$anchor.'"; ';
+						}
+
+					?></script><?php
+				}
+			}
+		}
 
 
 }
