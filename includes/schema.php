@@ -44,8 +44,8 @@ class UBEP_Schema {
 			'description' => __( 'Events created by the Ultra Basic Events plugin', 'ubep' ),
 			'public'      => true,
 			'hierarchical' => false,
-            'publicly_queryable' => true,
-            'exclude_from_search' => true,
+      'publicly_queryable' => true,
+      'exclude_from_search' => true,
 			'supports' 	=> array('title','editor','author','thumbnail','excerpt','custom-fields','page-attributes'),
 			'taxonomies' => array('category', 'post_tag')
 			#'show_in_menu' => ubep()->menu_slug

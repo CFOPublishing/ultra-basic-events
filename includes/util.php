@@ -37,7 +37,7 @@ class UBEP_Util {
             'label'         => $label,
             'field_name'    => $field_name,
             'input'         => $input,
-			      'descript'		  => $descript,
+            'descript'		  => $descript,
             'post_type'     => $post_type,
             'size'          => $size,
             'the_field'     => $the_field
