@@ -19,7 +19,7 @@ class UBEP_Schema {
         add_action( 'add_meta_boxes', array($this, 'date_box') );
 				add_action( 'add_meta_boxes', array($this, 'redirect_box') );
         add_action( 'save_post', array($this, 'meta_box_checker') );
-				add_action('wp_head', array($this, 'zs_wm_forward_onto_new_site'));
+				add_action('wp_print_scripts', array($this, 'zs_wm_forward_onto_new_site'));
     }
 
 	/**
@@ -48,8 +48,9 @@ class UBEP_Schema {
 			'hierarchical' => false,
       'publicly_queryable' => true,
       'exclude_from_search' => true,
-			'supports' 	=> array('title','editor','author','thumbnail','excerpt','custom-fields','page-attributes'),
-			'taxonomies' => array('category', 'post_tag')
+			'supports' 	=> array('title','editor','author','thumbnail','excerpt','custom-fields'),
+			'taxonomies' => array('category', 'post_tag'),
+			'rewrite'		=> array('slug' => 'event')
 			#'show_in_menu' => ubep()->menu_slug
 			#'menu_position' => 100
 			#'show_ui'     => true, // for testing only
@@ -103,17 +104,23 @@ class UBEP_Schema {
 
     public function meta_box_checker($post_id){
         $args = self::date_box_schema();
-        #var_dump($post_id);
-        #var_dump($_POST); die();
         ubep()->util->meta_box_checker($post_id, $args);
+				$args = self::redirect_box_schema();
+				ubep()->util->meta_box_checker($post_id, $args);
     }
 
 		function zs_wm_forward_onto_new_site(){
+			global $wp_query;
 			global $post;
 			if (!is_admin()){
-				$link = get_post_meta($post->ID, 'redirect_url');
-				echo '<META HTTP-EQUIV="refresh" CONTENT="0;URL='.$link.'">';
-				
+				$meta_slug = ubep()->util->meta_slug(self::redirect_box_schema());
+				#var_dump('<pre>'); var_dump($post); die();
+				$link = get_post_meta($post->ID, $meta_slug, true);
+				#var_dump('<pre>'); var_dump($link); die();
+				if (!empty($link)){
+					echo '<META HTTP-EQUIV="refresh" CONTENT="0;URL='.$link.'">';
+				}
+
 			}
 		}
 
